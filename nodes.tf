@@ -71,6 +71,13 @@ resource "aws_eks_node_group" "this" {
     max_unavailable = 1
   }
 
+  lifecycle {
+    precondition {
+      condition     = var.node_min_size <= var.node_desired_size && var.node_desired_size <= var.node_max_size
+      error_message = "Node sizes must satisfy node_min_size <= node_desired_size <= node_max_size."
+    }
+  }
+
   depends_on = [
     aws_iam_role_policy_attachment.node,
     aws_route_table_association.private,

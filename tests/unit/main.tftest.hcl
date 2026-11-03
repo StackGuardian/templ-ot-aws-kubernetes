@@ -220,3 +220,26 @@ run "pod_identity_and_flow_logs" {
     error_message = "VPC flow logs must capture all traffic."
   }
 }
+
+# U-12
+run "broad_api_cidr_is_rejected" {
+  command = plan
+
+  variables {
+    allowed_api_cidrs = ["128.0.0.0/1"]
+  }
+
+  expect_failures = [var.allowed_api_cidrs]
+}
+
+# U-13
+run "node_sizes_must_be_ordered" {
+  command = plan
+
+  variables {
+    node_min_size     = 3
+    node_desired_size = 2
+  }
+
+  expect_failures = [aws_eks_node_group.this]
+}
