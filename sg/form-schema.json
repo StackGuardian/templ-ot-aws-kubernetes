@@ -1,0 +1,115 @@
+{
+  "type": "object",
+  "required": [
+    "allowed_api_cidrs"
+  ],
+  "properties": {
+    "name_prefix": {
+      "title": "Name prefix",
+      "type": "string",
+      "description": "Prefix for all resource names",
+      "default": "demo",
+      "pattern": "^[a-z][a-z0-9-]{1,15}$"
+    },
+    "region": {
+      "title": "Region",
+      "type": "string",
+      "description": "AWS region",
+      "default": "eu-central-1"
+    },
+    "tags": {
+      "title": "Tags",
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      },
+      "description": "Additional tags for all resources",
+      "default": {}
+    },
+    "vpc_cidr": {
+      "title": "VPC cidr",
+      "type": "string",
+      "description": "CIDR block of the VPC",
+      "default": "10.0.0.0/16"
+    },
+    "kubernetes_version": {
+      "title": "Kubernetes version",
+      "type": "string",
+      "description": "Kubernetes version of the cluster. Null uses the current EKS default."
+    },
+    "allowed_api_cidrs": {
+      "title": "Allowed api cidrs",
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "IPv4 CIDRs allowed to reach the public Kubernetes API endpoint"
+    },
+    "node_instance_types": {
+      "title": "Node instance types",
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Instance types of the managed node group",
+      "default": [
+        "t3.medium"
+      ]
+    },
+    "node_desired_size": {
+      "title": "Node desired size",
+      "type": "number",
+      "description": "Desired number of nodes",
+      "default": 2
+    },
+    "node_min_size": {
+      "title": "Node min size",
+      "type": "number",
+      "description": "Minimum number of nodes",
+      "default": 1
+    },
+    "node_max_size": {
+      "title": "Node max size",
+      "type": "number",
+      "description": "Maximum number of nodes",
+      "default": 3
+    },
+    "node_disk_size": {
+      "title": "Node disk size",
+      "type": "number",
+      "description": "Root volume size of the nodes in GiB",
+      "default": 20
+    },
+    "log_retention_days": {
+      "title": "Log retention days",
+      "type": "number",
+      "description": "Retention of control plane and flow logs in CloudWatch",
+      "default": 90,
+      "enum": [
+        1,
+        3,
+        5,
+        7,
+        14,
+        30,
+        60,
+        90,
+        120,
+        150,
+        180,
+        365,
+        400,
+        545,
+        731,
+        1096,
+        1827,
+        2192,
+        2557,
+        2922,
+        3288,
+        3653
+      ]
+    }
+  },
+  "title": "AWS Kubernetes Cluster (EKS)"
+}
