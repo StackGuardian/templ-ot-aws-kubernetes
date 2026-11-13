@@ -1,16 +1,66 @@
 {
+  "allowed_api_cidrs": {
+    "ui:title": "Allowed API CIDRs",
+    "ui:description": "IPv4 CIDRs allowed to reach the public Kubernetes API endpoint"
+  },
+  "name_prefix": {
+    "ui:title": "Name Prefix",
+    "ui:description": "Prefix for all resource names"
+  },
+  "region": {
+    "ui:title": "Region",
+    "ui:description": "AWS region"
+  },
+  "advanced_settings": {
+    "show_advanced_settings": {
+      "ui:title": "Show advanced settings"
+    },
+    "vpc_cidr": {
+      "ui:title": "VPC CIDR"
+    },
+    "kubernetes_version": {
+      "ui:title": "Kubernetes Version"
+    },
+    "node_instance_types": {
+      "ui:title": "Node Instance Types"
+    },
+    "node_desired_size": {
+      "ui:title": "Node Desired Size"
+    },
+    "node_min_size": {
+      "ui:title": "Node Min Size"
+    },
+    "node_max_size": {
+      "ui:title": "Node Max Size"
+    },
+    "node_disk_size": {
+      "ui:title": "Node Disk Size"
+    },
+    "log_retention_days": {
+      "ui:title": "Log Retention Days"
+    },
+    "tags": {
+      "ui:title": "Tags"
+    },
+    "ui:order": [
+      "show_advanced_settings",
+      "vpc_cidr",
+      "kubernetes_version",
+      "node_instance_types",
+      "node_desired_size",
+      "node_min_size",
+      "node_max_size",
+      "node_disk_size",
+      "log_retention_days",
+      "tags"
+    ],
+    "ui:title": "Advanced Settings",
+    "ui:description": "Optional settings, most deployments keep the defaults"
+  },
   "ui:order": [
     "allowed_api_cidrs",
     "name_prefix",
     "region",
-    "vpc_cidr",
-    "kubernetes_version",
-    "node_instance_types",
-    "node_desired_size",
-    "node_min_size",
-    "node_max_size",
-    "node_disk_size",
-    "log_retention_days",
-    "tags"
+    "advanced_settings"
   ]
 }

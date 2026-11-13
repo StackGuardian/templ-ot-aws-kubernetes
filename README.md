@@ -81,16 +81,22 @@ To give other people access, add access entries (`aws_eks_access_entry`) for the
 |---|---|---|
 | `name_prefix` | Prefix for all resource names | `"demo"` |
 | `region` | AWS region | `"eu-central-1"` |
-| `tags` | Additional tags for all resources | `{}` |
 | `allowed_api_cidrs` | CIDRs allowed to reach the API endpoint (required, `/0` rejected) | none |
+| `advanced_settings` | Object with the settings below, all optional | `{}` |
+
+`advanced_settings` attributes (shown as "Advanced Settings" in the StackGuardian form):
+
+| Name | Description | Default |
+|---|---|---|
 | `vpc_cidr` | CIDR block of the VPC | `"10.0.0.0/16"` |
-| `kubernetes_version` | Kubernetes version, `null` uses the EKS default | `null` |
+| `kubernetes_version` | Kubernetes minor version, EKS picks the latest patch | `"1.37"` |
 | `node_instance_types` | Instance types of the node group | `["t3.medium"]` |
 | `node_desired_size` | Desired number of nodes | `2` |
 | `node_min_size` | Minimum number of nodes | `1` |
 | `node_max_size` | Maximum number of nodes | `3` |
 | `node_disk_size` | Node root volume in GiB | `20` |
 | `log_retention_days` | Control plane and flow log retention | `90` |
+| `tags` | Additional tags for all resources | `{}` |
 
 ## Outputs
 

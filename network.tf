@@ -8,7 +8,7 @@ locals {
 }
 
 resource "aws_vpc" "this" {
-  cidr_block           = var.vpc_cidr
+  cidr_block           = var.advanced_settings.vpc_cidr
   enable_dns_support   = true
   enable_dns_hostnames = true
 
@@ -25,7 +25,7 @@ resource "aws_subnet" "public" {
   count = 2
 
   vpc_id                  = aws_vpc.this.id
-  cidr_block              = cidrsubnet(var.vpc_cidr, 8, count.index)
+  cidr_block              = cidrsubnet(var.advanced_settings.vpc_cidr, 8, count.index)
   availability_zone       = local.azs[count.index]
   map_public_ip_on_launch = false
 
@@ -39,7 +39,7 @@ resource "aws_subnet" "private" {
   count = 2
 
   vpc_id                  = aws_vpc.this.id
-  cidr_block              = cidrsubnet(var.vpc_cidr, 8, count.index + 10)
+  cidr_block              = cidrsubnet(var.advanced_settings.vpc_cidr, 8, count.index + 10)
   availability_zone       = local.azs[count.index]
   map_public_ip_on_launch = false
 
@@ -109,10 +109,10 @@ resource "aws_route_table_association" "private" {
 
 # VPC flow logs
 resource "aws_cloudwatch_log_group" "flow_logs" {
-  #checkov:skip=CKV_AWS_338:Demo template, retention is configurable via log_retention_days
+  #checkov:skip=CKV_AWS_338:Demo template, retention is configurable via advanced_settings.log_retention_days
   #checkov:skip=CKV_AWS_158:Encrypted with AWS-managed keys, customer-managed KMS is out of scope for the demo
   name              = "/${var.name_prefix}/vpc-flow-logs"
-  retention_in_days = var.log_retention_days
+  retention_in_days = var.advanced_settings.log_retention_days
 }
 
 resource "aws_iam_role" "flow_logs" {

@@ -21,7 +21,7 @@ tofu test -test-directory=tests/integration   # needs cloud credentials
 |---|---|---|---|
 | U-01 | Unit | Default variables produce a valid plan with all default tags | done |
 | U-02 | Unit | Invalid `name_prefix` is rejected | done |
-| U-03 | Unit | Custom `tags` are merged with the default tags | done |
+| U-03 | Unit | Custom `advanced_settings.tags` are merged with the default tags | done |
 | U-04 | Unit | Public API endpoint is limited to `allowed_api_cidrs`, private endpoint access is on | done |
 | U-05 | Unit | `allowed_api_cidrs` containing `0.0.0.0/0` is rejected | done |
 | U-06 | Unit | Kubernetes secrets are encrypted with the KMS key, key rotation is on | done |
@@ -31,7 +31,7 @@ tofu test -test-directory=tests/integration   # needs cloud credentials
 | U-10 | Unit | Launch template enforces IMDSv2 and encrypted volumes, node group uses it | done |
 | U-11 | Unit | Pod Identity agent add-on is installed, VPC flow logs capture all traffic | done |
 | U-12 | Unit | `allowed_api_cidrs` broader than `/8` (for example `128.0.0.0/1`) is rejected | done |
-| U-13 | Unit | Node sizes with `node_min_size` above `node_desired_size` are rejected | done |
+| U-13 | Unit | Node sizes with `advanced_settings.node_min_size` above `node_desired_size` are rejected | done |
 | I-01 | Integration | Cluster status is `ACTIVE` | done |
 | I-02 | Integration | Node group status is `ACTIVE` with the desired size | done |
 | I-03 | Integration | Cluster endpoint and version outputs are set | done |

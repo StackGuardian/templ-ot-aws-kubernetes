@@ -15,29 +15,6 @@ variable "region" {
   default     = "eu-central-1"
 }
 
-variable "tags" {
-  description = "Additional tags for all resources"
-  type        = map(string)
-  default     = {}
-}
-
-variable "vpc_cidr" {
-  description = "CIDR block of the VPC"
-  type        = string
-  default     = "10.0.0.0/16"
-
-  validation {
-    condition     = can(cidrnetmask(var.vpc_cidr))
-    error_message = "Must be a valid IPv4 CIDR block."
-  }
-}
-
-variable "kubernetes_version" {
-  description = "Kubernetes version of the cluster. Null uses the current EKS default."
-  type        = string
-  default     = null
-}
-
 variable "allowed_api_cidrs" {
   description = "IPv4 CIDRs allowed to reach the public Kubernetes API endpoint"
   type        = list(string)
@@ -53,48 +30,35 @@ variable "allowed_api_cidrs" {
   }
 }
 
-variable "node_instance_types" {
-  description = "Instance types of the managed node group"
-  type        = list(string)
-  default     = ["t3.medium"]
-}
-
-variable "node_desired_size" {
-  description = "Desired number of nodes"
-  type        = number
-  default     = 2
-}
-
-variable "node_min_size" {
-  description = "Minimum number of nodes"
-  type        = number
-  default     = 1
+# Grouped so the StackGuardian form can show them in one "Advanced Settings" section.
+variable "advanced_settings" {
+  description = "Settings most deployments keep at their defaults"
+  type = object({
+    vpc_cidr            = optional(string, "10.0.0.0/16")       # CIDR block of the VPC
+    kubernetes_version  = optional(string, "1.37")              # Kubernetes minor version; EKS picks the latest patch
+    node_instance_types = optional(list(string), ["t3.medium"]) # Instance types of the managed node group
+    node_desired_size   = optional(number, 2)                   # Desired number of nodes
+    node_min_size       = optional(number, 1)                   # Minimum number of nodes
+    node_max_size       = optional(number, 3)                   # Maximum number of nodes
+    node_disk_size      = optional(number, 20)                  # Root volume size of the nodes in GiB
+    log_retention_days  = optional(number, 90)                  # Retention of control plane and flow logs in CloudWatch
+    tags                = optional(map(string), {})             # Additional tags for all resources
+  })
+  default  = {}
+  nullable = false
 
   validation {
-    condition     = var.node_min_size >= 1
+    condition     = can(cidrnetmask(var.advanced_settings.vpc_cidr))
+    error_message = "vpc_cidr must be a valid IPv4 CIDR block."
+  }
+
+  validation {
+    condition     = var.advanced_settings.node_min_size >= 1
     error_message = "At least one node is needed."
   }
-}
-
-variable "node_max_size" {
-  description = "Maximum number of nodes"
-  type        = number
-  default     = 3
-}
-
-variable "node_disk_size" {
-  description = "Root volume size of the nodes in GiB"
-  type        = number
-  default     = 20
-}
-
-variable "log_retention_days" {
-  description = "Retention of control plane and flow logs in CloudWatch"
-  type        = number
-  default     = 90
 
   validation {
-    condition     = contains([1, 3, 5, 7, 14, 30, 60, 90, 120, 150, 180, 365, 400, 545, 731, 1096, 1827, 2192, 2557, 2922, 3288, 3653], var.log_retention_days)
+    condition     = contains([1, 3, 5, 7, 14, 30, 60, 90, 120, 150, 180, 365, 400, 545, 731, 1096, 1827, 2192, 2557, 2922, 3288, 3653], var.advanced_settings.log_retention_days)
     error_message = "CloudWatch Logs accepts only fixed retention values, for example 30, 90 or 365."
   }
 }

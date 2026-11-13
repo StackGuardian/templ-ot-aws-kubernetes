@@ -36,7 +36,7 @@ resource "aws_launch_template" "node" {
     device_name = "/dev/xvda"
 
     ebs {
-      volume_size           = var.node_disk_size
+      volume_size           = var.advanced_settings.node_disk_size
       volume_type           = "gp3"
       encrypted             = true
       delete_on_termination = true
@@ -54,12 +54,12 @@ resource "aws_eks_node_group" "this" {
   node_group_name = "${local.cluster_name}-default"
   node_role_arn   = aws_iam_role.node.arn
   subnet_ids      = aws_subnet.private[*].id
-  instance_types  = var.node_instance_types
+  instance_types  = var.advanced_settings.node_instance_types
 
   scaling_config {
-    desired_size = var.node_desired_size
-    min_size     = var.node_min_size
-    max_size     = var.node_max_size
+    desired_size = var.advanced_settings.node_desired_size
+    min_size     = var.advanced_settings.node_min_size
+    max_size     = var.advanced_settings.node_max_size
   }
 
   launch_template {
@@ -73,7 +73,7 @@ resource "aws_eks_node_group" "this" {
 
   lifecycle {
     precondition {
-      condition     = var.node_min_size <= var.node_desired_size && var.node_desired_size <= var.node_max_size
+      condition     = var.advanced_settings.node_min_size <= var.advanced_settings.node_desired_size && var.advanced_settings.node_desired_size <= var.advanced_settings.node_max_size
       error_message = "Node sizes must satisfy node_min_size <= node_desired_size <= node_max_size."
     }
   }

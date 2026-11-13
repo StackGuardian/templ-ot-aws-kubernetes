@@ -6,6 +6,6 @@ locals {
       ManagedBy   = "opentofu"
       Repository  = "tf-aws-kubernetes"
     },
-    var.tags,
+    var.advanced_settings.tags,
   )
 }

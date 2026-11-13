@@ -4,111 +4,337 @@
     "allowed_api_cidrs"
   ],
   "properties": {
+    "allowed_api_cidrs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
     "name_prefix": {
-      "title": "Name prefix",
       "type": "string",
-      "description": "Prefix for all resource names",
       "default": "demo",
       "pattern": "^[a-z][a-z0-9-]{1,15}$"
     },
     "region": {
-      "title": "Region",
       "type": "string",
-      "description": "AWS region",
-      "default": "eu-central-1"
-    },
-    "tags": {
-      "title": "Tags",
-      "type": "object",
-      "additionalProperties": {
-        "type": "string"
-      },
-      "description": "Additional tags for all resources",
-      "default": {}
-    },
-    "vpc_cidr": {
-      "title": "VPC cidr",
-      "type": "string",
-      "description": "CIDR block of the VPC",
-      "default": "10.0.0.0/16"
-    },
-    "kubernetes_version": {
-      "title": "Kubernetes version",
-      "type": "string",
-      "description": "Kubernetes version of the cluster. Null uses the current EKS default."
-    },
-    "allowed_api_cidrs": {
-      "title": "Allowed api cidrs",
-      "type": "array",
-      "items": {
-        "type": "string"
-      },
-      "description": "IPv4 CIDRs allowed to reach the public Kubernetes API endpoint"
-    },
-    "node_instance_types": {
-      "title": "Node instance types",
-      "type": "array",
-      "items": {
-        "type": "string"
-      },
-      "description": "Instance types of the managed node group",
-      "default": [
-        "t3.medium"
-      ]
-    },
-    "node_desired_size": {
-      "title": "Node desired size",
-      "type": "number",
-      "description": "Desired number of nodes",
-      "default": 2
-    },
-    "node_min_size": {
-      "title": "Node min size",
-      "type": "number",
-      "description": "Minimum number of nodes",
-      "default": 1
-    },
-    "node_max_size": {
-      "title": "Node max size",
-      "type": "number",
-      "description": "Maximum number of nodes",
-      "default": 3
-    },
-    "node_disk_size": {
-      "title": "Node disk size",
-      "type": "number",
-      "description": "Root volume size of the nodes in GiB",
-      "default": 20
-    },
-    "log_retention_days": {
-      "title": "Log retention days",
-      "type": "number",
-      "description": "Retention of control plane and flow logs in CloudWatch",
-      "default": 90,
+      "default": "eu-central-1",
       "enum": [
-        1,
-        3,
-        5,
-        7,
-        14,
-        30,
-        60,
-        90,
-        120,
-        150,
-        180,
-        365,
-        400,
-        545,
-        731,
-        1096,
-        1827,
-        2192,
-        2557,
-        2922,
-        3288,
-        3653
+        "af-south-1",
+        "ap-east-1",
+        "ap-south-2",
+        "ap-southeast-3",
+        "ap-southeast-5",
+        "ap-southeast-4",
+        "ap-south-1",
+        "ap-southeast-6",
+        "ap-northeast-3",
+        "ap-northeast-2",
+        "ap-southeast-1",
+        "ap-southeast-2",
+        "ap-east-2",
+        "ap-southeast-7",
+        "ap-northeast-1",
+        "ca-central-1",
+        "ca-west-1",
+        "eu-central-1",
+        "eu-west-1",
+        "eu-west-2",
+        "eu-south-1",
+        "eu-west-3",
+        "eu-south-2",
+        "eu-north-1",
+        "eu-central-2",
+        "il-central-1",
+        "mx-central-1",
+        "me-south-1",
+        "me-central-1",
+        "sa-east-1",
+        "us-east-1",
+        "us-east-2",
+        "us-west-1",
+        "us-west-2"
+      ],
+      "enumNames": [
+        "Africa (Cape Town) (af-south-1)",
+        "Asia Pacific (Hong Kong) (ap-east-1)",
+        "Asia Pacific (Hyderabad) (ap-south-2)",
+        "Asia Pacific (Jakarta) (ap-southeast-3)",
+        "Asia Pacific (Malaysia) (ap-southeast-5)",
+        "Asia Pacific (Melbourne) (ap-southeast-4)",
+        "Asia Pacific (Mumbai) (ap-south-1)",
+        "Asia Pacific (New Zealand) (ap-southeast-6)",
+        "Asia Pacific (Osaka) (ap-northeast-3)",
+        "Asia Pacific (Seoul) (ap-northeast-2)",
+        "Asia Pacific (Singapore) (ap-southeast-1)",
+        "Asia Pacific (Sydney) (ap-southeast-2)",
+        "Asia Pacific (Taipei) (ap-east-2)",
+        "Asia Pacific (Thailand) (ap-southeast-7)",
+        "Asia Pacific (Tokyo) (ap-northeast-1)",
+        "Canada (Central) (ca-central-1)",
+        "Canada West (Calgary) (ca-west-1)",
+        "Europe (Frankfurt) (eu-central-1)",
+        "Europe (Ireland) (eu-west-1)",
+        "Europe (London) (eu-west-2)",
+        "Europe (Milan) (eu-south-1)",
+        "Europe (Paris) (eu-west-3)",
+        "Europe (Spain) (eu-south-2)",
+        "Europe (Stockholm) (eu-north-1)",
+        "Europe (Zurich) (eu-central-2)",
+        "Israel (Tel Aviv) (il-central-1)",
+        "Mexico (Central) (mx-central-1)",
+        "Middle East (Bahrain) (me-south-1)",
+        "Middle East (UAE) (me-central-1)",
+        "South America (S\u00e3o Paulo) (sa-east-1)",
+        "US East (N. Virginia) (us-east-1)",
+        "US East (Ohio) (us-east-2)",
+        "US West (N. California) (us-west-1)",
+        "US West (Oregon) (us-west-2)"
       ]
+    },
+    "advanced_settings": {
+      "type": "object",
+      "properties": {
+        "show_advanced_settings": {
+          "type": "boolean",
+          "default": false
+        }
+      },
+      "dependencies": {
+        "show_advanced_settings": {
+          "oneOf": [
+            {
+              "properties": {
+                "show_advanced_settings": {
+                  "enum": [
+                    false
+                  ]
+                }
+              },
+              "required": []
+            },
+            {
+              "properties": {
+                "show_advanced_settings": {
+                  "enum": [
+                    true
+                  ]
+                },
+                "vpc_cidr": {
+                  "title": "VPC cidr",
+                  "type": "string",
+                  "description": "CIDR block of the VPC",
+                  "default": "10.0.0.0/16"
+                },
+                "kubernetes_version": {
+                  "title": "Kubernetes version",
+                  "type": "string",
+                  "description": "Kubernetes minor version. EKS picks the latest patch.",
+                  "default": "1.37",
+                  "enum": [
+                    "1.37",
+                    "1.36",
+                    "1.35",
+                    "1.34"
+                  ],
+                  "enumNames": [
+                    "Kubernetes 1.37",
+                    "Kubernetes 1.36",
+                    "Kubernetes 1.35",
+                    "Kubernetes 1.34"
+                  ]
+                },
+                "node_instance_types": {
+                  "title": "Node instance types",
+                  "type": "array",
+                  "description": "Instance types of the managed node group. All are x86 (64-bit) types.",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "t3.medium",
+                      "t3.large",
+                      "t3.xlarge",
+                      "t3a.medium",
+                      "t3a.large",
+                      "m5.large",
+                      "m5.xlarge",
+                      "m6i.large",
+                      "m6i.xlarge",
+                      "m7i.large",
+                      "m7i.xlarge",
+                      "c6i.large",
+                      "c6i.xlarge",
+                      "c7i.xlarge",
+                      "r6i.large",
+                      "r7i.large"
+                    ],
+                    "enumNames": [
+                      "t3.medium (2 vCPU, 4 GiB)",
+                      "t3.large (2 vCPU, 8 GiB)",
+                      "t3.xlarge (4 vCPU, 16 GiB)",
+                      "t3a.medium (2 vCPU, 4 GiB, AMD)",
+                      "t3a.large (2 vCPU, 8 GiB, AMD)",
+                      "m5.large (2 vCPU, 8 GiB)",
+                      "m5.xlarge (4 vCPU, 16 GiB)",
+                      "m6i.large (2 vCPU, 8 GiB)",
+                      "m6i.xlarge (4 vCPU, 16 GiB)",
+                      "m7i.large (2 vCPU, 8 GiB)",
+                      "m7i.xlarge (4 vCPU, 16 GiB)",
+                      "c6i.large (2 vCPU, 4 GiB, compute optimized)",
+                      "c6i.xlarge (4 vCPU, 8 GiB, compute optimized)",
+                      "c7i.xlarge (4 vCPU, 8 GiB, compute optimized)",
+                      "r6i.large (2 vCPU, 16 GiB, memory optimized)",
+                      "r7i.large (2 vCPU, 16 GiB, memory optimized)"
+                    ]
+                  },
+                  "uniqueItems": true,
+                  "minItems": 1,
+                  "default": [
+                    "t3.medium"
+                  ]
+                },
+                "node_desired_size": {
+                  "title": "Node desired size",
+                  "type": "number",
+                  "description": "Desired number of nodes",
+                  "default": 2,
+                  "enum": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11,
+                    12,
+                    13,
+                    14,
+                    15,
+                    16,
+                    17,
+                    18,
+                    19,
+                    20
+                  ]
+                },
+                "node_min_size": {
+                  "title": "Node min size",
+                  "type": "number",
+                  "description": "Minimum number of nodes",
+                  "default": 1,
+                  "enum": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11,
+                    12,
+                    13,
+                    14,
+                    15,
+                    16,
+                    17,
+                    18,
+                    19,
+                    20
+                  ]
+                },
+                "node_max_size": {
+                  "title": "Node max size",
+                  "type": "number",
+                  "description": "Maximum number of nodes",
+                  "default": 3,
+                  "enum": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11,
+                    12,
+                    13,
+                    14,
+                    15,
+                    16,
+                    17,
+                    18,
+                    19,
+                    20
+                  ]
+                },
+                "node_disk_size": {
+                  "title": "Node disk size",
+                  "type": "number",
+                  "description": "Root volume size of the nodes in GiB",
+                  "default": 20,
+                  "enum": [
+                    20,
+                    30,
+                    50,
+                    100,
+                    200,
+                    500
+                  ]
+                },
+                "log_retention_days": {
+                  "title": "Log retention days",
+                  "type": "number",
+                  "description": "Retention of control plane and flow logs in CloudWatch",
+                  "default": 90,
+                  "enum": [
+                    1,
+                    3,
+                    5,
+                    7,
+                    14,
+                    30,
+                    60,
+                    90,
+                    120,
+                    150,
+                    180,
+                    365,
+                    400,
+                    545,
+                    731,
+                    1096,
+                    1827,
+                    2192,
+                    2557,
+                    2922,
+                    3288,
+                    3653
+                  ]
+                },
+                "tags": {
+                  "title": "Tags",
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "description": "Additional tags for all resources",
+                  "default": {}
+                }
+              },
+              "required": []
+            }
+          ]
+        }
+      }
     }
   },
   "title": "AWS Kubernetes Cluster (EKS)"

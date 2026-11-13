@@ -84,8 +84,10 @@ run "custom_tags_are_merged" {
   command = plan
 
   variables {
-    tags = {
-      Owner = "tester"
+    advanced_settings = {
+      tags = {
+        Owner = "tester"
+      }
     }
   }
 
@@ -237,8 +239,10 @@ run "node_sizes_must_be_ordered" {
   command = plan
 
   variables {
-    node_min_size     = 3
-    node_desired_size = 2
+    advanced_settings = {
+      node_min_size     = 3
+      node_desired_size = 2
+    }
   }
 
   expect_failures = [aws_eks_node_group.this]

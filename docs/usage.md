@@ -18,25 +18,34 @@ Use it to show a hardened Kubernetes setup on AWS or to get a cluster for tests.
 
 - A workflow with an AWS cloud connector for the target account
 - Permissions to create VPC, EKS, EC2, IAM, KMS and CloudWatch Logs resources
-- The public IP range you work from, for **Allowed api cidrs**
+- The public IP range you work from, for **Allowed API CIDRs**
 - To use the cluster: the AWS CLI and `kubectl`
 
 ## Form fields
 
 | Field | What it does | Default |
 |---|---|---|
-| Allowed api cidrs | **Required.** IP ranges that may reach the Kubernetes API, for example your office or VPN address. `0.0.0.0/0` is rejected | none |
+| Allowed API CIDRs | **Required.** IP ranges that may reach the Kubernetes API, for example your office or VPN address. `0.0.0.0/0` is rejected | none |
 | Name prefix | Prefix for all resource names. 2 to 16 lowercase letters, digits or hyphens, starting with a letter | `demo` |
 | Region | AWS region | `eu-central-1` |
-| Tags | Extra tags added to all resources | none |
-| VPC cidr | IP range of the new network | `10.0.0.0/16` |
-| Kubernetes version | Kubernetes version. Empty uses the current EKS default | empty |
-| Node instance types | Instance types of the nodes | `t3.medium` |
-| Node desired size | Number of nodes | `2` |
-| Node min size | Smallest number of nodes | `1` |
-| Node max size | Largest number of nodes | `3` |
+
+### Advanced settings
+
+These appear after you tick "Show advanced settings". Most deployments keep the defaults.
+
+| Field | What it does | Default |
+|---|---|---|
+| VPC CIDR | IP range of the new network | `10.0.0.0/16` |
+| Kubernetes version | Kubernetes minor version. EKS picks the latest patch | `1.37` |
+| Node instance types | Instance types of the nodes. Pick one or more from the list (x86 only) | `t3.medium` |
+| Node desired size | Number of nodes, 1 to 20 | `2` |
+| Node min size | Smallest number of nodes, 1 to 20. Must not exceed the desired size | `1` |
+| Node max size | Largest number of nodes, 1 to 20. Must not be below the desired size | `3` |
 | Node disk size | Disk size per node in GiB | `20` |
 | Log retention days | How long control plane logs and flow logs are kept | `90` |
+| Tags | Extra tags added to all resources | none |
+
+The version list contains the EKS versions in standard support. A new version may not be available in every region yet. If the run fails for that reason, pick the next lower version.
 
 ## After the run
 
