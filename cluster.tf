@@ -76,6 +76,7 @@ resource "aws_iam_role_policy" "cluster_kms" {
 resource "aws_eks_cluster" "this" {
   #checkov:skip=CKV_AWS_38:Public access is limited to allowed_api_cidrs, a validation rejects 0.0.0.0/0
   #checkov:skip=CKV_AWS_39:The public endpoint is needed to use kubectl from outside the VPC, it is limited to allowed_api_cidrs
+  #checkov:skip=CKV_AWS_339:Versions 1.34 to 1.37 are in EKS standard support, the version list built into checkov ends at 1.35
   name     = local.cluster_name
   version  = var.advanced_settings.kubernetes_version
   role_arn = aws_iam_role.cluster.arn
