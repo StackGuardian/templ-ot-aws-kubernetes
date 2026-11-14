@@ -33,6 +33,7 @@ resource "aws_kms_alias" "eks" {
 }
 
 # Created up front so the retention applies to the control plane logs.
+#trivy:ignore:AVD-AWS-0017 Encrypted with AWS-managed keys, customer-managed KMS is out of scope for the demo
 resource "aws_cloudwatch_log_group" "eks" {
   #checkov:skip=CKV_AWS_338:Demo template, retention is configurable via advanced_settings.log_retention_days
   #checkov:skip=CKV_AWS_158:Encrypted with AWS-managed keys, customer-managed KMS is out of scope for the demo
@@ -73,6 +74,7 @@ resource "aws_iam_role_policy" "cluster_kms" {
   })
 }
 
+#trivy:ignore:AVD-AWS-0040 Public access is limited to allowed_api_cidrs, a validation rejects 0.0.0.0/0
 resource "aws_eks_cluster" "this" {
   #checkov:skip=CKV_AWS_38:Public access is limited to allowed_api_cidrs, a validation rejects 0.0.0.0/0
   #checkov:skip=CKV_AWS_39:The public endpoint is needed to use kubectl from outside the VPC, it is limited to allowed_api_cidrs
