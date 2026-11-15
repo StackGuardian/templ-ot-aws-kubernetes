@@ -247,3 +247,16 @@ run "node_sizes_must_be_ordered" {
 
   expect_failures = [aws_eks_node_group.this]
 }
+
+# U-14
+run "node_sizes_above_20_are_rejected" {
+  command = plan
+
+  variables {
+    advanced_settings = {
+      node_max_size = 21
+    }
+  }
+
+  expect_failures = [var.advanced_settings]
+}
