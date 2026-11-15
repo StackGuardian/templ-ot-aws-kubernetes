@@ -53,8 +53,10 @@ variable "advanced_settings" {
   }
 
   validation {
-    condition     = var.advanced_settings.node_min_size >= 1
-    error_message = "At least one node is needed."
+    condition = alltrue([
+      for n in [var.advanced_settings.node_min_size, var.advanced_settings.node_desired_size, var.advanced_settings.node_max_size] : n >= 1 && n <= 20
+    ])
+    error_message = "node_min_size, node_desired_size and node_max_size must each be between 1 and 20."
   }
 
   validation {
