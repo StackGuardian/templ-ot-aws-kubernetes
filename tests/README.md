@@ -34,6 +34,7 @@ tofu test -test-directory=tests/integration   # needs cloud credentials
 | U-11 | Unit | Pod Identity agent add-on is installed, VPC flow logs capture all traffic | done |
 | U-12 | Unit | `allowed_api_cidrs` broader than `/8` (for example `128.0.0.0/1`) is rejected | done |
 | U-13 | Unit | Node sizes with `advanced_settings.node_min_size` above `node_desired_size` are rejected | done |
+| U-14 | Unit | `advanced_settings.node_max_size` above 20 is rejected | done |
 | I-01 | Integration | Cluster status is `ACTIVE` | done |
 | I-02 | Integration | Node group status is `ACTIVE` with the desired size | done |
 | I-03 | Integration | Cluster endpoint and version outputs are set | done |
